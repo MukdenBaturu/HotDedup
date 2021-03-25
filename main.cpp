@@ -3,6 +3,7 @@
 #include "graph.h"
 #include "HotDedupGraph.h"
 #include <queue>
+#include <set>
 
 using namespace std;
 
@@ -32,7 +33,7 @@ int main()
 //    }
 //    return 0;
 
-    int mode=1;
+    int mode=0;
     if (mode==1){
         int n,t;
         double p;
@@ -53,32 +54,50 @@ int main()
         int low=0;
         int high=2*totalV*2*hg.getFileNum();
         int B=4,curSize;
-        do{
-            int curQ=(high-low)/2;
-            Tree t=g.kmst(1,2,9,curQ,20,0.5,0.1);
-            {
-                queue<int> q;
-                q.push(t.root);
-                while (!q.empty()){
-                    int cur=q.front();
-                    q.pop();
-                    cout<<cur<<":";
-                    for (int i=0;i<t.children[cur].size();i++){
-                        q.push(t.children[cur][i]);
-                        cout<<t.children[cur][i]<<";";
-                    }
-                    cout<<endl;
-                }
-            }
-            int curSize=hg.evaluate(t);
+        set<int> ans;
+        while(true){
+            int curQ=(high+low)/2;
+            Tree t=g.kmst(1,2,9,curQ,1,0.5,0.1);
+//            {
+//                queue<int> q;
+//                q.push(t.root);
+//                while (!q.empty()){
+//                    int cur=q.front();
+//                    q.pop();
+//                    cout<<cur<<":";
+//                    for (int i=0;i<t.children[cur].size();i++){
+//                        q.push(t.children[cur][i]);
+//                        cout<<t.children[cur][i]<<";";
+//                    }
+//                    cout<<endl;
+//                }
+//            }
+            ans.erase(ans.begin(),ans.end());
+            int curSize=hg.evaluate(t,ans);
 
-            cout<<curSize<<" "<<curQ<<endl;
-            system("pause");
+            cout<<curSize<<" "<<curQ<<" "<<(abs(curSize-B)>1)<<endl;
+            //system("pause");
+            if(abs(curSize-B)<1)
+                break;
             if(curSize>B)
                 high=curQ;
             else
                 low=curQ;
-        }while (abs(curSize-B)>1);
+        }
+//        while (high){
+//            Tree t=g.kmst(1,2,9,high,20,0.5,0.1);
+//            ans.erase(ans.begin(),ans.end());
+//            int curSize=hg.evaluate(t,ans);
+//            cout<<curSize<<" "<<high<<endl;
+////            system("pause");;
+//            if(curSize<=B)
+//                break;
+//            high--;
+//        }
+        cout<<"chose file"<<endl;
+        for (auto n:ans){
+            cout<<n<<" ";
+        }
         return 0;
     }
 }

@@ -135,7 +135,7 @@ Tree Graph::getEdgesWithPotentialandRoot(double p,int root,double delta)
             }
             if(sum>=dist[e[i].startpoint][e[i].endpoint]){
                 //可以优化,做一个edge到subset的一个映射
-                cout<<"edge "<<i<<" startpoint:"<<e[i].startpoint<<" endpoint:"<<e[i].endpoint<<" value:"<<dist[e[i].startpoint][e[i].endpoint]<<" sum:"<<sum<<endl;
+//                cout<<"edge "<<i<<" startpoint:"<<e[i].startpoint<<" endpoint:"<<e[i].endpoint<<" value:"<<dist[e[i].startpoint][e[i].endpoint]<<" sum:"<<sum<<endl;
                 vector<Subset> v;
                 double newPotential=0;
                 for (map<Subset,double>::iterator iter=potential.begin();iter!=potential.end();iter++){
@@ -149,10 +149,10 @@ Tree Graph::getEdgesWithPotentialandRoot(double p,int root,double delta)
                 }
                 //获取合并之后的子集
                 if(v.size()==2){
-                    cout<<"merge"<<endl;
+//                    cout<<"merge"<<endl;
                     Subset newSubset=v[0].combine(v[1]);
                     if(newSubset.has(root)){
-                        cout<<"root"<<endl;
+ //                       cout<<"root"<<endl;
 //                        system("pause");
                         newSubset.setState(false);
                     }
@@ -178,7 +178,7 @@ Tree Graph::getEdgesWithPotentialandRoot(double p,int root,double delta)
                     }
                     edges.push_back(e[i]);
                     addedEdge.insert(e[i]);
-                    cout<<edges.size()<<endl;
+//                    cout<<edges.size()<<endl;
                     forests.insert(make_pair(newSubset,edges));
                 }
             }
@@ -195,9 +195,9 @@ Tree Graph::getEdgesWithPotentialandRoot(double p,int root,double delta)
     Tree t(nodenum);
     for (map<Subset,vector<Edge>>::iterator iter=forests.begin();iter!=forests.end();iter++){
         if(iter->first.has(root)){
-            cout<<endl<<endl;
-            iter->first.print();
-            cout<<"edges;"<<iter->second.size()<<endl;
+//            cout<<endl<<endl;
+//            iter->first.print();
+//            cout<<"edges;"<<iter->second.size()<<endl;
             generateTree(root,iter->second,t);
             getSubTreeComponents(t,root);
             //剪枝
@@ -207,15 +207,15 @@ Tree Graph::getEdgesWithPotentialandRoot(double p,int root,double delta)
             ans.nodenum=1;
             ans.root=t.root;
             for (int i=0;i<t.children.size();i++){
-                cout<<i<<":";
+//                cout<<i<<":";
                 for (int j=0;j<t.children[i].size();j++){
                     if(t.children[i][j]!=-1){
-                        cout<<t.children[i][j]<<" ";
+//                        cout<<t.children[i][j]<<" ";
                         ans.children[i].push_back(t.children[i][j]);
                         ans.nodenum++;
                     }
                 }
-                cout<<endl;
+//                cout<<endl;
             }
             return ans;
         }
@@ -237,9 +237,9 @@ Tree Graph::kmst(int startPt,int deltaPt,int topPt,int k,double startp,double de
 
         bool hasold=false;
         while (true){
-            cout<<"currentroot:"<<i<<" "<<"current potential"<<potential<<endl;
+//            cout<<"currentroot:"<<i<<" "<<"current potential"<<potential<<endl;
             Tree t=getEdgesWithPotentialandRoot(potential,i,deltam);
-            cout<<"nodenum:"<<t.nodenum<<endl;
+//            cout<<"nodenum:"<<t.nodenum<<endl;
 //            system("pause");
             if(t.nodenum>k){
                 //合并old
@@ -290,21 +290,21 @@ Tree Graph::kmst(int startPt,int deltaPt,int topPt,int k,double startp,double de
                             distance[curNodes[j]]=1<<30;
                         cnt++;
                     }
-                    cout<<"ans tree new:"<<edges.size()<<endl;
-                    for (auto e:edges){
-                        cout<<e.startpoint<<" "<<e.endpoint<<endl;
-                    }
-                    system("pause");
+//                    cout<<"ans tree new:"<<edges.size()<<endl;
+//                    for (auto e:edges){
+//                        cout<<e.startpoint<<" "<<e.endpoint<<endl;
+//                    }
+//                    system("pause");
                     generateTree(i,edges,cur);
                 }
                 else{
                     vector<Edge> edges=old.getEdges();
-                    cout<<"edges.size:"<<edges.size()<<endl;
+//                    cout<<"edges.size:"<<edges.size()<<endl;
                     vector<int> distance (nodenum,1<<30);
                     vector<int> edge (nodenum,-1);
                     vector<int> curNodes=old.getAllNodes();
-                    cout<<"curNodes.size:"<<curNodes.size()<<endl;
-                    system("pause");
+//                    cout<<"curNodes.size:"<<curNodes.size()<<endl;
+//                    system("pause");
 
                     for (int j=0;j<nodenum;j++){
                         int small=1<<30;
@@ -316,10 +316,12 @@ Tree Graph::kmst(int startPt,int deltaPt,int topPt,int k,double startp,double de
                             }
                         }
                         if(node!=-1){
+//                            cout<<"here"<<endl;
                             distance[j]=small;
                             for(int k=0;k<e.size();k++){
                                 if(e[k].isSame(j,node)){
-                                    edge[i]=k;
+//                                    cout<<"edge num:"<<k<<" "<<j<<" "<<node<<endl;
+                                    edge[j]=k;
                                     break;
                                 }
                             }
@@ -342,7 +344,7 @@ Tree Graph::kmst(int startPt,int deltaPt,int topPt,int k,double startp,double de
                                 pos=j;
                             }
                         }
-                        cout<<"push edge:"<<small<<" "<<pos<<" "<<edge[pos]<<endl;
+//                        cout<<"push edge:"<<small<<" "<<pos<<" "<<edge[pos]<<endl;
                         edges.push_back(e[edge[pos]]);
                         curNodes.push_back(pos);
                         for (int j=0;j<nodenum;j++){
@@ -361,34 +363,34 @@ Tree Graph::kmst(int startPt,int deltaPt,int topPt,int k,double startp,double de
                             distance[curNodes[j]]=1<<30;
                         cnt++;
                     }
-                    cout<<"ans tree old:"<<edges.size()<<endl;
-                    for (auto e:edges){
-                        cout<<e.startpoint<<" "<<e.endpoint<<endl;
-                    }
-                    system("pause");
+//                    cout<<"ans tree old:"<<edges.size()<<endl;
+//                    for (auto e:edges){
+//                        cout<<e.startpoint<<" "<<e.endpoint<<endl;
+//                    }
+//                    system("pause");
                     generateTree(i,edges,cur);
                 }
 
-                cout<<"cur-root:"<<cur.root<<endl;
-                for (int i=0;i<cur.children.size();i++){
-                    cout<<i<<":";
-                    for (int j=0;j<cur.children[i].size();j++){
-                        cout<<cur.children[i][j]<<" ";
-                    }
-                    cout<<endl;
-                }
-                system("pause");
+//                cout<<"cur-root:"<<cur.root<<endl;
+//                for (int i=0;i<cur.children.size();i++){
+//                    cout<<i<<":";
+//                    for (int j=0;j<cur.children[i].size();j++){
+//                        cout<<cur.children[i][j]<<" ";
+//                    }
+//                    cout<<endl;
+//                }
+//                system("pause");
 
                 if(!hasans){
                     ans=cur;
                     hasans=true;
                 }
                 else{
-                    cout<<"values:"<<cur.value(dist)<<" "<<ans.value(dist)<<endl;
+//                    cout<<"values:"<<cur.value(dist)<<" "<<ans.value(dist)<<endl;
                     if(cur.value(dist)<ans.value(dist))
                         ans=cur;
-                    cout<<ans.nodenum<<" "<<k<<endl;
-                    system("pause");
+//                    cout<<ans.nodenum<<" "<<k<<endl;
+//                    system("pause");
                 }
                 break;
 

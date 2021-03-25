@@ -87,7 +87,7 @@ Graph HotDedupGraph::getTransformedGraph(map<int,vector<int>>&m,int &bonus,int &
     return ans;
 }
 
-int HotDedupGraph::evaluate(const Tree &t)
+int HotDedupGraph::evaluate(const Tree &t,set<int> &fileset)
 {
     queue<int> q;
     q.push(t.root);
@@ -96,8 +96,24 @@ int HotDedupGraph::evaluate(const Tree &t)
         int cur=q.front();
         q.pop();
         for (auto c:t.children[cur]){
-            ans+=edges[cur][c];
-            q.push(c);
+            if(c<2*fileNum){
+                bool flag=true;
+                if(cur!=c+1&&c%2==0){
+                    flag=false;
+                    for (int i=0;i<t.children[c].size();i++){
+                        if(t.children[c][i]==c+1){
+                            flag=true;
+                            break;
+                        }
+                    }
+                }
+                if(flag){
+                    ans+=edges[c][cur]==0?edges[cur][c]:edges[c][cur];
+                    q.push(c);
+                    if(fileset.count(c/2)==0)
+                        fileset.insert(c/2);
+                }
+            }
         }
     }
     return ans;

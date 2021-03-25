@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+#include <set>
 #include "graph.h"
 
 using namespace std;
@@ -18,7 +19,7 @@ public:
     HotDedupGraph(const char *filename);
     //需要获得
     Graph getTransformedGraph(map<int,vector<int>>&m,int &bonus,int &totalV);
-    int evaluate(const Tree &t);
+    int evaluate(const Tree &t,set<int>&fileset);
     int getFileNum(){return fileNum;};
 };
 
