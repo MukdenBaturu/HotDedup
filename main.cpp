@@ -53,9 +53,9 @@ int main()
         Graph g=hg.getTransformedGraph(mp,bonus,totalV);
         int low=0;
         int high=2*totalV*2*hg.getFileNum();
-        int B=4,curSize;
+        int B=6,curSize;
         set<int> ans;
-        while(true){
+        while(high-low>1){
             int curQ=(high+low)/2;
             Tree t=g.kmst(1,2,9,curQ,1,0.5,0.1);
 //            {
@@ -66,8 +66,10 @@ int main()
 //                    q.pop();
 //                    cout<<cur<<":";
 //                    for (int i=0;i<t.children[cur].size();i++){
-//                        q.push(t.children[cur][i]);
-//                        cout<<t.children[cur][i]<<";";
+//                        if(t.children[cur][i]<10){
+//                            q.push(t.children[cur][i]);
+//                            cout<<t.children[cur][i]<<";";
+//                        }
 //                    }
 //                    cout<<endl;
 //                }
@@ -75,7 +77,7 @@ int main()
             ans.erase(ans.begin(),ans.end());
             int curSize=hg.evaluate(t,ans);
 
-            cout<<curSize<<" "<<curQ<<" "<<(abs(curSize-B)>1)<<endl;
+            cout<<"cur:"<<curSize<<" "<<curQ<<" "<<(abs(curSize-B)>1)<<endl;
             //system("pause");
             if(abs(curSize-B)<1)
                 break;

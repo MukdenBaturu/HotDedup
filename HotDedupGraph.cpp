@@ -101,18 +101,21 @@ int HotDedupGraph::evaluate(const Tree &t,set<int> &fileset)
                 if(cur!=c+1&&c%2==0){
                     flag=false;
                     for (int i=0;i<t.children[c].size();i++){
-                        if(t.children[c][i]==c+1){
+                        if(t.children[c][i]==c+1&&t.children[c+1].size()>=arrivalRate[c+1]/2){
                             flag=true;
                             break;
                         }
                     }
                 }
                 if(flag){
-                    ans+=edges[c][cur]==0?edges[cur][c]:edges[c][cur];
+                    int add=edges[c][cur]==0?edges[cur][c]:edges[c][cur];
+                    cout<<cur<<" "<<c<<" "<<add<<endl;
+                    ans+=add;
                     q.push(c);
                     if(fileset.count(c/2)==0)
                         fileset.insert(c/2);
                 }
+
             }
         }
     }
