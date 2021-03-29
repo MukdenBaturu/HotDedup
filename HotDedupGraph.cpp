@@ -109,7 +109,7 @@ int HotDedupGraph::evaluate(const Tree &t,set<int> &fileset)
                 }
                 if(flag){
                     int add=edges[c][cur]==0?edges[cur][c]:edges[c][cur];
-                    cout<<cur<<" "<<c<<" "<<add<<endl;
+//                    cout<<cur<<" "<<c<<" "<<add<<endl;
                     ans+=add;
                     q.push(c);
                     if(fileset.count(c/2)==0)

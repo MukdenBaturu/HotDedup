@@ -137,6 +137,7 @@ public:
     Tree getEdgesWithPotentialandRoot(double p,int root,double delta);
     // only for test
     void print();
+    int getNodeNum(){return nodenum;};
     Tree kmst(int startPt,int deltaPt,int topPt,int k,double startp,double deltap,double deltam);
 };
 

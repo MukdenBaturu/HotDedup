@@ -51,13 +51,26 @@ int main()
         map<int,vector<int>> mp;
         int bonus,totalV;
         Graph g=hg.getTransformedGraph(mp,bonus,totalV);
+        cout<<totalV<<endl<<g.getNodeNum()<<endl;
         int low=0;
-        int high=2*totalV*2*hg.getFileNum();
-        int B=6,curSize;
+        //int high=2*totalV*2*hg.getFileNum();
+        int high=g.getNodeNum();
+        int B,curSize;
+        cin>>B;
         set<int> ans;
+        set<int> lastans;
+        //int curSize;
+        bool first=true;
+        bool hasans=false;
         while(high-low>1){
+            if(!first)
+                lastans=ans;
+            else
+                first=false;
             int curQ=(high+low)/2;
-            Tree t=g.kmst(1,2,9,curQ,1,0.5,0.1);
+            int filenum=hg.getFileNum();
+//            cout<<2*filenum-1<<endl;
+            Tree t=g.kmst(1,2,2*filenum-1,curQ,1,0.5,0.1);
 //            {
 //                queue<int> q;
 //                q.push(t.root);
@@ -75,17 +88,22 @@ int main()
 //                }
 //            }
             ans.erase(ans.begin(),ans.end());
-            int curSize=hg.evaluate(t,ans);
+            curSize=hg.evaluate(t,ans);
+            if(curSize<=B)
+                hasans=true;
 
             cout<<"cur:"<<curSize<<" "<<curQ<<" "<<(abs(curSize-B)>1)<<endl;
             //system("pause");
-            if(abs(curSize-B)<1)
-                break;
+//            if(abs(curSize-B)<1)
+//                break;
             if(curSize>B)
-                high=curQ;
+                high=curQ-1;
             else
-                low=curQ;
+                low=curQ+1;
         }
+        cout<<"curSize:"<<curSize<<endl;
+        if(curSize>B)
+            ans=lastans;
 //        while (high){
 //            Tree t=g.kmst(1,2,9,high,20,0.5,0.1);
 //            ans.erase(ans.begin(),ans.end());
@@ -96,9 +114,14 @@ int main()
 //                break;
 //            high--;
 //        }
-        cout<<"chose file"<<endl;
-        for (auto n:ans){
-            cout<<n<<" ";
+        if(hasans){
+            cout<<"chose file"<<endl;
+            for (auto n:ans){
+                cout<<n<<" ";
+            }
+        }
+        else{
+            cout<<"Solution satisfying the edge storage constraint does not exist"<<endl;
         }
         return 0;
     }
