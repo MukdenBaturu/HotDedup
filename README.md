@@ -2,6 +2,8 @@
 A C++ project that implements HotDedup Algorithm
 
 #input File example
+
+```text
 5 //nodenum
 3 4 2 3 4  //file size
 2 1 1 4 5  //arrive rate
@@ -12,3 +14,4 @@ A C++ project that implements HotDedup Algorithm
 1 2 2
 1 3 2
 3 4 1
+```
